@@ -17,6 +17,7 @@ module Contentful
     attr_accessor :sources
     attr_accessor :breadcrumbs
     attr_accessor :teaser_image_id
+    attr_accessor :list_priority
 
     rich_text source: :content, target: :content
     link_object source: :category_link, target: :category

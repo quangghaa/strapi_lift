@@ -7,18 +7,19 @@ module Contentful
 
     nested :fields do
       %w(
-          title 
-          slug 
-          content 
-          sponsored_article 
-          affiliate_notice_hidden 
-          seo_text 
-          meta_keywords 
-          meta_description 
+          title
+          slug
+          content
+          sponsored_article
+          affiliate_notice_hidden
+          seo_text
+          meta_keywords
+          meta_description
           meta_robots
           display_toc
           vg_wort_pixel_url
           sources
+          list_priority
         ).each do |property_name|
         nested property_name do
           property property_name, as: :de_de
@@ -28,7 +29,7 @@ module Contentful
       nested :image_gallery do
         property :image_gallery_link, decorator: Contentful::EntryLinkRepresenter, class: Contentful::ImageGalleryLink, as: :de_de
       end
-      nested :category do 
+      nested :category do
         property :category_link, decorator: Contentful::EntryLinkRepresenter, class: Contentful::CategoryLink, as: :de_de
       end
       nested :teaser_image do

@@ -33,13 +33,13 @@ module Strapi
       @conn = RetryProxy.new(raw_conn, attempts: 3, on: DEFAULT_RETRY_ERRORS)
     end
 
-    def upload_file(file_path)
+    def upload_file(file_path, new_filename: nil)
       unless File.exist?(file_path) && File.size(file_path).positive?
         raise "File not found or empty: #{file_path}"
       end
 
       mime_type = MIME::Types.type_for(file_path).first.to_s || "application/octet-stream"
-      file = Faraday::UploadIO.new(file_path, mime_type)
+      file = Faraday::UploadIO.new(file_path, mime_type, new_filename || File.basename(file_path))
       response = conn.post("/api/upload") do |req|
         req.body = { files: file }
       end

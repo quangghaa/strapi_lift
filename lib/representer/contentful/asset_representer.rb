@@ -17,11 +17,11 @@ module Contentful
           description 
         ).each do |property_name|
         nested property_name do
-          property property_name, as: :de_de
+          property property_name, as: :en_us
         end
 
         nested :file do
-          nested :de_de do
+          nested :en_us do
             property :url
           end
         end

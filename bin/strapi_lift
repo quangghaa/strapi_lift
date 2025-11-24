@@ -65,14 +65,8 @@ class Cli < Thor
     logger = SemanticLogger['strapi_lift']
 
     logger.info("Starting reset process...")
-    Contentful::Article.reset_strapi!
-    Contentful::Category.reset_strapi!
-    Contentful::ImageGallery.reset_strapi!
-    Contentful::ImageGalleryTag.reset_strapi!
-    Contentful::Homepage.reset_strapi!
-    Contentful::Teaser.reset_strapi!
-    Contentful::Author.reset_strapi!
-    Contentful::Asset.reset_strapi!
+    Contentful::Winner.reset_strapi!
+    Contentful::LotteryWinnerCategory.reset_strapi!
     logger.info("Reset process completed successfully.")
   end
 

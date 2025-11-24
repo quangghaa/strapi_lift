@@ -31,7 +31,7 @@ module StrapiFileConnected
   end
 
   def logger
-    self.class.logger
+    self.class.loggergit
   end
 
   def ensure_strapi_methods!
@@ -44,7 +44,7 @@ module StrapiFileConnected
   def save_to_strapi!
     ensure_strapi_methods!
     file_path = discover_file_path
-    upload_response = strapi_connection.upload_file(file_path)
+    upload_response = strapi_connection.upload_file(file_path, new_filename: "#{contentful_id}-#{file_name}")
 
     self.strapi_file_id = upload_response.first.dig("id")
     self.strapi_file_url = upload_response.first.dig("url")

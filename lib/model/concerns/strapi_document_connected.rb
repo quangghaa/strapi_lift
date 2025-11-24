@@ -3,9 +3,7 @@ require 'semantic_logger'
 module StrapiDocumentConnected
   extend ActiveSupport::Concern
 
-  REQUIRED_INSTANCE_METHODS = %i[
-    title
-  ]
+  REQUIRED_INSTANCE_METHODS = %i[]
 
   included do
     attr_accessor :strapi_id
@@ -145,6 +143,16 @@ module StrapiDocumentConnected
     update_connections!
   rescue Faraday::BadRequestError => e
     logger.error(JSON.parse(e.response.fetch(:body)).dig("error", "message"))
+    body = e.response[:body] rescue nil
+
+    begin
+      parsed = JSON.parse(body)
+      # log full body for debugging
+      logger.error("Strapi 400 Response Body: #{parsed.inspect}")
+    rescue JSON::ParserError
+      logger.error("Strapi 400 Response (non-JSON): #{body}")
+    end
+
     raise e
   end
 
@@ -224,6 +232,8 @@ module StrapiDocumentConnected
     ensure_strapi_methods!
     representer = self.class.strapi_representer_class.new(self)
     data = representer.to_hash.transform_keys { |key| key.to_s.camelize(:lower) }
+
+      logger.info("Send Body: #{data.inspect}")
 
     if self.class.single_content_type?
       data.delete("contentfulId")

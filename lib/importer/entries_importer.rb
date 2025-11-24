@@ -7,10 +7,8 @@ class EntriesImporter
 
   def run(entries_data, content_types = {}, ids = [], skip: 0)
     [
-      Contentful::Author,
-      Contentful::Category,
-      Contentful::Article,
-      Contentful::Homepage
+      Contentful::LotteryWinnerCategory,
+      Contentful::Winner,
     ].each do |model|
       model_name = model.name.split("::").last.underscore.pluralize
       next if content_types.any? && !content_types.key?(model_name)
@@ -28,9 +26,12 @@ class EntriesImporter
           next
         end
         logger.info("Processing #{index + 1}/#{filtered_entries.count}", id: entry_data.dig("sys", "id"), model: model_name)
+        logger.info("Raw entry_data:", entry_data: entry_data)
 
         entry = model.new
         model.contentful_representer_class.new(entry).from_hash(entry_data)
+
+        logger.info("Mapped object:", mapped: entry.inspect)
         entry.save!
       end
     end

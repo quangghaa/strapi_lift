@@ -26,12 +26,10 @@ class EntriesImporter
           next
         end
         logger.info("Processing #{index + 1}/#{filtered_entries.count}", id: entry_data.dig("sys", "id"), model: model_name)
-        logger.info("Raw entry_data:", entry_data: entry_data)
 
         entry = model.new
         model.contentful_representer_class.new(entry).from_hash(entry_data)
 
-        logger.info("Mapped object:", mapped: entry.inspect)
         entry.save!
       end
     end

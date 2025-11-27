@@ -31,7 +31,7 @@ module StrapiFileConnected
   end
 
   def logger
-    self.class.loggergit
+    self.class.logger
   end
 
   def ensure_strapi_methods!

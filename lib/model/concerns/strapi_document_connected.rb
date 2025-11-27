@@ -233,7 +233,7 @@ module StrapiDocumentConnected
     representer = self.class.strapi_representer_class.new(self)
     data = representer.to_hash.transform_keys { |key| key.to_s.camelize(:lower) }
 
-      logger.info("Send Body: #{data.inspect}")
+      # logger.info("Send Body: #{data.inspect}")
 
     if self.class.single_content_type?
       data.delete("contentfulId")
